@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace FindBalanceElementTask
 {
@@ -17,7 +17,41 @@ namespace FindBalanceElementTask
         /// <exception cref="ArgumentException">Thrown when source array is empty.</exception>
         public static int? FindBalanceElement(int[] array)
         {
-            throw new NotImplementedException("You need to implement this method.");
+            if (array is null)
+            {
+                throw new ArgumentNullException(nameof(array));
+            }
+
+            if (array.Length == 0)
+            {
+                throw new ArgumentException($"{nameof(array)} can not be empty.");
+            }
+
+            if (array.Length == 2)
+            {
+                return null;
+            }
+
+            static long GetSum(int[] partOfArray)
+            {
+                long sum = 0;
+                for (int i = 0; i < partOfArray.Length; i++)
+                {
+                    sum += partOfArray[i];
+                }
+
+                return sum;
+            }
+
+            for (int i = 1; i < array.Length; i++)
+            {
+                if (GetSum(array[..i]) == GetSum(array[(i + 1) ..]))
+                {
+                    return i;
+                }
+            }
+
+            return null;
         }
     }
 }
